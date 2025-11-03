@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ETA Software Guide 公式ページ</title>
+    
+    <!-- SEO & SNS共有 -->
+    <title>ETA Software Guide</title>
+    <meta name="description" content="ETA Software Guideの公式情報、開発進捗、更新履歴などを公開しています。">
+    <meta property="og:title" content="ETA Software Guide 公式ページ">
+    <meta property="og:description" content="ETA Software Guideの公式情報、開発進捗、更新履歴などを公開しています。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://eta-guide.github.io/ETA_Software_Guide/">
+    <meta property="og:image" content="https://ここにプレビュー画像のURLを貼る">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* --- CSS変数によるテーマ設定 --- */
         :root {
-            /* デフォルトのダークモード */
-            --bg-color: #1e1e24;
-            --text-color: #e0e0e0;
-            --header-color: #ffffff;
-            --accent-color: #007acc;
-            --border-color: #333;
-            --card-bg-color: #2a2a30;
+            --bg-color: #1a1b26;
+            --text-color: #a9b1d6;
+            --header-color: #c0caf5;
+            --accent-color: #7aa2f7;
+            --border-color: #3b4261;
+            --card-bg-color: #24283b;
+            --font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
 
         body.light-mode {
-            /* ライトモードのカラースキーム */
             --bg-color: #f4f4f9;
             --text-color: #333333;
             --header-color: #000000;
@@ -26,25 +37,106 @@
             --card-bg-color: #ffffff;
         }
 
-        /* --- 基本的なスタイル --- */
+        html {
+            scroll-behavior: smooth;
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: var(--font-family);
             margin: 0;
             background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.7;
+            line-height: 1.8;
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden; /* 波がはみ出ても横スクロールバーが出ないように */
         }
 
+        /* --- コンテンツのz-index調整 --- */
+        .container, footer, .theme-toggle {
+            position: relative;
+            z-index: 2;
+        }
+        
         .container {
             max-width: 960px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; /* コンテンツの背面、背景色の前面 */
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            border-radius: 45%;
+            opacity: 0.5;
+            filter: blur(80px); /* 強くぼかして滑らかに */
+        }
+
+        .wave1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #ff3b3b, transparent 60%);
+            top: 10%;
+            left: 10%;
+            animation: moveWave 15s ease-in-out infinite alternate, changeColor 20s linear infinite;
+        }
+
+        .wave2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b7dff, transparent 60%);
+            bottom: 5%;
+            right: 15%;
+            animation: moveWave 18s ease-in-out infinite alternate -6s, changeColor 25s linear infinite -5s;
+        }
+
+        .wave3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #3bff89, transparent 60%);
+            top: 50%;
+            left: 40%;
+            animation: moveWave 22s ease-in-out infinite alternate -12s, changeColor 30s linear infinite -10s;
+        }
+
+        @keyframes moveWave {
+            from {
+                transform: translate(0, 0) rotate(0deg) scale(1.0);
+            }
+            to {
+                transform: translate(100px, 50px) rotate(180deg) scale(1.2);
+            }
+        }
+
+        @keyframes changeColor {
+            0% { filter: hue-rotate(0deg) blur(80px); }
+            100% { filter: hue-rotate(360deg) blur(80px); }
+        }
+
+        body.light-mode .wave {
+            opacity: 0.25; /* ライトモードでは透明度を下げて控えめに */
+        }
+        
+        .main-content {
             display: flex;
+            gap: 40px;
         }
 
         main {
-            flex-grow: 1;
+            flex: 1;
+            min-width: 0;
+            background-color: color-mix(in srgb, var(--bg-color), transparent 20%); /* 背景を少しだけ不透明にして読みやすく */
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid color-mix(in srgb, var(--border-color), transparent 50%);
         }
 
         /* --- ヘッダーとセクション --- */
@@ -57,221 +149,182 @@
 
         h1, h2 {
             color: var(--header-color);
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.2em;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-top: 50px;
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
-        p, li {
-            font-size: 1.1em;
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
+        h1 { font-size: 2.8em; margin-bottom: 0.2em; }
+        h2 { font-size: 2em; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-top: 60px; }
+        section { margin-bottom: 40px; }
+        p, li { font-size: 1.1em; }
+        a { color: var(--accent-color); text-decoration: none; transition: color 0.2s; }
+        a:hover { text-decoration: underline; }
 
         /* --- PC用サイドナビゲーション --- */
         .sidebar {
-            display: none; /* スマホでは非表示 */
-            width: 200px;
-            margin-left: 40px;
+            display: none;
+            width: 220px;
+            flex-shrink: 0;
             position: sticky;
-            top: 20px;
+            top: 40px;
             align-self: flex-start;
         }
         
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            border-left: 2px solid var(--border-color);
-        }
-
-        .sidebar li a {
-            display: block;
-            padding: 10px 20px;
-            font-size: 1em;
-            border-bottom: none;
-        }
-
-        .sidebar li a:hover {
-            background-color: var(--card-bg-color);
-            text-decoration: none;
-        }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar li a { display: block; padding: 12px 20px; font-size: 1em; border-left: 3px solid transparent; transition: all 0.2s ease-in-out; }
+        .sidebar li a:hover { background-color: var(--card-bg-color); border-left-color: var(--border-color); text-decoration: none; }
+        .sidebar li a.active { color: var(--header-color); font-weight: 700; border-left-color: var(--accent-color); }
 
         /* --- 各種パーツ --- */
-        .download-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: white;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-        .download-button:hover {
-            background-color: #005a9c;
-            transform: translateY(-2px);
-            text-decoration: none;
-        }
-
-        .issue-link {
-            background-color: var(--card-bg-color);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 8px;
-            display: block;
-            text-align: center;
-        }
+        .download-button { display: inline-block; background-color: var(--accent-color); color: white !important; padding: 15px 30px; font-size: 1.2em; border-radius: 8px; font-weight: 700; transition: background-color 0.2s, transform 0.2s; }
+        .download-button:hover { background-color: color-mix(in srgb, var(--accent-color), black 10%); transform: translateY(-2px); text-decoration: none; }
+        .issue-link { background-color: var(--card-bg-color); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; display: block; text-align: center; transition: border-color 0.2s, background-color 0.2s; }
+        .issue-link:hover { border-color: var(--accent-color); background-color: color-mix(in srgb, var(--card-bg-color), black 5%); text-decoration: none; }
 
         /* テーマ切り替えボタン */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            background-color: var(--card-bg-color);
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .theme-toggle { position: fixed; top: 20px; right: 20px; cursor: pointer; background-color: var(--card-bg-color); border: 1px solid var(--border-color); padding: 10px; border-radius: 50%; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; transition: background-color 0.3s, border-color 0.3s; }
+        .theme-toggle svg { color: var(--text-color); }
+        .sun-icon { display: none; }
+        body.light-mode .sun-icon { display: block; }
+        body.light-mode .moon-icon { display: none; }
+        
+        /* styleタグの末尾あたりに追加 */
+		.screenshot {
+		    max-width: 100%;
+		    border-radius: 8px;
+		    margin: 20px 0;
+		    border: 1px solid var(--border-color);
+		}
+
+        /* フッター */
+        footer { border-top: 1px solid var(--border-color); padding: 30px 0; text-align: center; font-size: 0.9em; color: var(--text-color); }
 
         /* --- レスポンシブ設定 --- */
-        @media (min-width: 1024px) {
-            .sidebar {
-                display: block; /* PC幅で表示 */
-            }
-        }
+        @media (min-width: 1024px) { .sidebar { display: block; } }
     </style>
 </head>
 <body>
 
-    <button id="theme-toggle" class="theme-toggle" title="テーマを切り替え">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <!-- 背景アニメーション用の要素 -->
+    <div class="background-animation">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+    </div>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="テーマを切り替え">
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
     </button>
 
     <div class="container">
-        <main>
-            <header>
-                <h1>ETA Software Guide</h1>
-                <p>ソフトウェアの公式情報と、開発に関する進捗報告</p>
-            </header>
+        <div class="main-content">
+            <main>
+                <header>
+                    <h1>ETA Software Guide</h1>
+                    <p>ソフトウェアの公式情報と、開発に関する進捗報告</p>
+                </header>
 
-            <section id="description">
-                <h2>ソフトウェア説明</h2>
-                <p>
-                    ここに、あなたのソフトウェアがどのようなものか、その目的や主な特徴などを詳しく記述します。
-                    ユーザーが「これは自分のためのツールだ」と感じられるような、魅力的で分かりやすい説明を心がけましょう。
-                </p>
-                <!-- 必要であればスクリーンショット画像などをここに挿入 -->
-                <h3>体験版のダウンロード</h3>
-                <a href="ここにReleasesページのURLを貼る" class="download-button">最新体験版をダウンロード</a>
-                <p style="margin-top: 15px;">バージョン: v1.0.0 (2025/11/04 更新)</p>
-            </section>
+                <section id="description">
+                    <h2>ArtGuard Pro X:2.9.1.0 (改善中)</h2>
+                    <p>ソフトウェアの目的や主な特徴など。</p>
+                    <p>クリエイターのためのAI学習対策ツールを目的に制作しています。</p>
+                    <p>(v2.9.1.0のノイズ強度50%のとき)実際にあるイラスト21枚に対してノイズ有り無しで対照実験を行ったところ、
+                    ノイズ有りの方が学習時においてloss値(簡単に表現すると上手くいかなかったことを表す)の増加がありました。<br>
+                    そして学習されたモデルを使用しての画像生成では顔が具体的に判別できない程度の効果が私の環境だと確認できました。</p>
+                    <p>また、これは余談になりますが学習するときの数を大きくし過ぎて過学習の傾向があるモデルが完成しました。(これは上記の実験では使用していない)<br>
+                    とりあえず比較しようと同様にノイズ有り無しで比較したとき、ノイズ有りのほうが高品質なイラストを生成し、対してノイズ無しの方はガタガタのジャギーのようなイラストを生成しました。<br>
+                    ここからは考察ですが、過学習になったことでノイズ有りが逆手にとられ学習が上手くいかなかったことにより、高性能なベースモデルの影響が大きくなったと考えています。</p>
+                    <p>これは過学習の時のグラフですが、上からノイズ無し、ノイズ無し</p>
+                    <img src="https://raw.githubusercontent.com/ETA-guide/ETA_Software_Guide/refs/heads/main/images/ori_.png" alt="スクリーンショット" class="screenshot">
+                    <img src="https://raw.githubusercontent.com/ETA-guide/ETA_Software_Guide/refs/heads/main/images/noi_.png" alt="スクリーンショット" class="screenshot">
+                    <h3>過去のバージョンを体験版として無料で配布することを予定しています。</h3>
+                    <a href="" class="download-button">最新体験版をダウンロード(予定中)</a>
+                    <p style="margin-top: 15px;">バージョン: v2.9.1.0 (2025/08/31 更新)</p>
+                </section>
 
-            <section id="progress">
-                <h2>開発者の進捗報告</h2>
-                <p>
-                    ここでは開発の進捗状況を定期的に報告します。ブログのような形式で、現在取り組んでいることや、次に実装予定の機能などを書きましょう。
-                    活発に開発が進んでいることを見せることで、ユーザーに安心感と期待感を与えます。
-                </p>
+                <section id="progress">
+                    <h2>開発者の進捗報告</h2>
+                    <p>最近の進捗ですが、ArtGuard Pro Xのアップデートを予定してます。主な改善点は以下のリストにある通りですが、変更点として
+                    ノイズ処理のネイティブなGPU対応計算ロジックの再設計、使用できるノイズの種類の増加、単純なノイズ効果の増加が主な変更になります。</p>
+                    <p>また、特定の条件でエンコードを行うとエラーが発生することを確認しています。これも改善に含まれます。</p>
+                    <ul>
+                        <li><strong>2025/10/24:</strong> UIデザインの改善作業を開始しました。</li>
+                        <li><strong>2025/10/03:</strong> 中核機能であるARTライブラリの機能を根本から見直しました。</li>
+                    </ul>
+                    <p>新しいバージョンではGlazeを超えることを一つの目標にしています。あちらは無料ですから、超えないと申し訳ない。</p>
+                </section>
+                
+                <section id="improvements">
+                    <h2>改善状況（更新履歴）</h2>
+                    <p>これまでのバージョンアップにおける、具体的な改善点やバグ修正の履歴です。</p>
+                    <h3>バージョン 2.9.1.0 (2025/08/31)</h3>
+                    <ul>
+                        <li>初回リリース</li>
+                        <li>基本機能を実装</li>
+                    </ul>
+                </section>
+
+                <section id="report-issue">
+                    <h2>問題報告とフィードバック</h2>
+                    <p>不具合の発見や、機能に関するご要望がありましたら、ぜひお聞かせください。皆様からの協力を心待ちにしております。</p>
+                    <a href="https://github.com/ETA-guide/ETA_Software_Guide/issues" target="_blank" rel="noopener noreferrer" class="issue-link">
+                        <strong>GitHub Issueで問題を報告する</strong>
+                        <br>
+                        <small>（バグ報告や機能要望はこちらから。GitHubアカウントが必要です）</small>
+                    </a>
+                </section>
+            </main>
+
+            <nav class="sidebar">
                 <ul>
-                    <li><strong>2025/11/04:</strong> UIデザインの改善作業を開始しました。</li>
-                    <li><strong>2025/10/28:</strong> 中核機能である〇〇処理のパフォーマンスを改善しました。</li>
+                    <li><a href="#description">ソフトウェア説明</a></li>
+                    <li><a href="#progress">進捗報告</a></li>
+                    <li><a href="#improvements">改善状況</a></li>
+                    <li><a href="#report-issue">問題報告</a></li>
                 </ul>
-            </section>
-            
-            <section id="improvements">
-                <h2>改善状況（更新履歴）</h2>
-                <p>
-                    これまでのバージョンアップにおける、具体的な改善点やバグ修正の履歴です。
-                </p>
-                <h3>バージョン 1.0.0 (2025/11/04)</h3>
-                <ul>
-                    <li>初回リリース</li>
-                    <li>基本機能（A, B, C）を実装</li>
-                </ul>
-                <h3>バージョン 0.9.0 (Beta)</h3>
-                <ul>
-                    <li>〇〇の不具合を修正</li>
-                    <li>設定項目に△△を追加</li>
-                </ul>
-            </section>
-
-            <section id="report-issue">
-                <h2>問題報告とフィードバック</h2>
-                <p>
-                    ソフトウェアを使用していて不具合を発見した場合や、機能に関するご要望がありましたら、ぜひお聞かせください。
-                    皆様からのフィードバックが、このソフトウェアをより良くするための最も重要な情報源となります。
-                </p>
-                <a href="https://github.com/ETA-guide/ETA_Software_Guide/issues" target="_blank" class="issue-link">
-                    <strong>GitHub Issueで問題を報告する</strong>
-                    <br>
-                    <small>（バグ報告や機能要望はこちらから。GitHubアカウントが必要です）</small>
-                </a>
-            </section>
-
-        </main>
-
-        <nav class="sidebar">
-            <ul>
-                <li><a href="#description">ソフトウェア説明</a></li>
-                <li><a href="#progress">進捗報告</a></li>
-                <li><a href="#improvements">改善状況</a></li>
-                <li><a href="#report-issue">問題報告</a></li>
-            </ul>
-        </nav>
+            </nav>
+        </div>
     </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ETA, ETA-guide. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const themeToggle = document.getElementById('theme-toggle');
             const body = document.body;
-
-            // ページ読み込み時に、保存されたテーマ設定を適用
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                body.classList.add('light-mode');
-            }
-
-            // ボタンクリックでテーマを切り替え
+            const applyTheme = (theme) => {
+                if (theme === 'light') body.classList.add('light-mode');
+                else body.classList.remove('light-mode');
+            };
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
             themeToggle.addEventListener('click', () => {
                 body.classList.toggle('light-mode');
-
-                // 現在のテーマ設定をlocalStorageに保存
-                if (body.classList.contains('light-mode')) {
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    localStorage.setItem('theme', 'dark');
-                }
+                const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', currentTheme);
             });
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('.sidebar a');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            navLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                }, { rootMargin: "-50% 0px -50% 0px" });
+                sections.forEach(section => observer.observe(section));
+            }
         });
     </script>
-
 </body>
 </html>
