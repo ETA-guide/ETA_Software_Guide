@@ -2,33 +2,276 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ETA Software Guide 公式ページ</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 20px auto; padding: 0 15px; }
-        h1, h2 { color: #333; }
-        .download-button { display: inline-block; background-color: #28a745; color: white; padding: 15px 25px; text-decoration: none; font-size: 1.2em; border-radius: 5px; }
-        img { max-width: 100%; height: auto; border: 1px solid #ccc; }
+        /* --- CSS変数によるテーマ設定 --- */
+        :root {
+            /* デフォルトのダークモード */
+            --bg-color: #1e1e24;
+            --text-color: #e0e0e0;
+            --header-color: #ffffff;
+            --accent-color: #007acc;
+            --border-color: #333;
+            --card-bg-color: #2a2a30;
+        }
+
+        body.light-mode {
+            /* ライトモードのカラースキーム */
+            --bg-color: #f4f4f9;
+            --text-color: #333333;
+            --header-color: #000000;
+            --accent-color: #005a9c;
+            --border-color: #ddd;
+            --card-bg-color: #ffffff;
+        }
+
+        /* --- 基本的なスタイル --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        /* --- ヘッダーとセクション --- */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: var(--header-color);
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.2em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 50px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        p, li {
+            font-size: 1.1em;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- PC用サイドナビゲーション --- */
+        .sidebar {
+            display: none; /* スマホでは非表示 */
+            width: 200px;
+            margin-left: 40px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .sidebar li a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-bottom: none;
+        }
+
+        .sidebar li a:hover {
+            background-color: var(--card-bg-color);
+            text-decoration: none;
+        }
+
+        /* --- 各種パーツ --- */
+        .download-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .download-button:hover {
+            background-color: #005a9c;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .issue-link {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            display: block;
+            text-align: center;
+        }
+
+        /* テーマ切り替えボタン */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- レスポンシブ設定 --- */
+        @media (min-width: 1024px) {
+            .sidebar {
+                display: block; /* PC幅で表示 */
+            }
+        }
     </style>
 </head>
 <body>
 
-    <h1>ETA Software Guide 公式ページ</h1>
-    
-    <p>これは「ETA Software」の公式情報ページです。体験版のダウンロードや、ソフトウェアの紹介を行っています。</p>
-    
-    <h2>ソフトウェア概要</h2>
-    <p>ここにソフトウェアがどんなものなのか、魅力的な説明を書きましょう。</p>
+    <button id="theme-toggle" class="theme-toggle" title="テーマを切り替え">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </button>
 
-    <h2>スクリーンショット</h2>
-    <img src="your-screenshot.png" alt="ソフトウェアのスクリーンショット">
-    <!-- 画像ファイル名をリポジトリにアップロードしたものに合わせてください -->
+    <div class="container">
+        <main>
+            <header>
+                <h1>ETA Software Guide</h1>
+                <p>ソフトウェアの公式情報と、開発に関する進捗報告</p>
+            </header>
 
-    <h2>体験版ダウンロード</h2>
-    <p>最新の体験版は、以下のボタンからダウンロードできます。</p>
-    <a href="ここにReleasesへのリンクを入れます" class="download-button">最新版をダウンロードする</a>
+            <section id="description">
+                <h2>ソフトウェア説明</h2>
+                <p>
+                    ここに、あなたのソフトウェアがどのようなものか、その目的や主な特徴などを詳しく記述します。
+                    ユーザーが「これは自分のためのツールだ」と感じられるような、魅力的で分かりやすい説明を心がけましょう。
+                </p>
+                <!-- 必要であればスクリーンショット画像などをここに挿入 -->
+                <h3>体験版のダウンロード</h3>
+                <a href="ここにReleasesページのURLを貼る" class="download-button">最新体験版をダウンロード</a>
+                <p style="margin-top: 15px;">バージョン: v1.0.0 (2025/11/04 更新)</p>
+            </section>
 
-    <h2>使い方・マニュアル</h2>
-    <p>詳しい使い方は、ダウンロードしたファイルに同梱されている説明書をご覧ください。</p>
+            <section id="progress">
+                <h2>開発者の進捗報告</h2>
+                <p>
+                    ここでは開発の進捗状況を定期的に報告します。ブログのような形式で、現在取り組んでいることや、次に実装予定の機能などを書きましょう。
+                    活発に開発が進んでいることを見せることで、ユーザーに安心感と期待感を与えます。
+                </p>
+                <ul>
+                    <li><strong>2025/11/04:</strong> UIデザインの改善作業を開始しました。</li>
+                    <li><strong>2025/10/28:</strong> 中核機能である〇〇処理のパフォーマンスを改善しました。</li>
+                </ul>
+            </section>
+            
+            <section id="improvements">
+                <h2>改善状況（更新履歴）</h2>
+                <p>
+                    これまでのバージョンアップにおける、具体的な改善点やバグ修正の履歴です。
+                </p>
+                <h3>バージョン 1.0.0 (2025/11/04)</h3>
+                <ul>
+                    <li>初回リリース</li>
+                    <li>基本機能（A, B, C）を実装</li>
+                </ul>
+                <h3>バージョン 0.9.0 (Beta)</h3>
+                <ul>
+                    <li>〇〇の不具合を修正</li>
+                    <li>設定項目に△△を追加</li>
+                </ul>
+            </section>
+
+            <section id="report-issue">
+                <h2>問題報告とフィードバック</h2>
+                <p>
+                    ソフトウェアを使用していて不具合を発見した場合や、機能に関するご要望がありましたら、ぜひお聞かせください。
+                    皆様からのフィードバックが、このソフトウェアをより良くするための最も重要な情報源となります。
+                </p>
+                <a href="https://github.com/ETA-guide/ETA_Software_Guide/issues" target="_blank" class="issue-link">
+                    <strong>GitHub Issueで問題を報告する</strong>
+                    <br>
+                    <small>（バグ報告や機能要望はこちらから。GitHubアカウントが必要です）</small>
+                </a>
+            </section>
+
+        </main>
+
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#description">ソフトウェア説明</a></li>
+                <li><a href="#progress">進捗報告</a></li>
+                <li><a href="#improvements">改善状況</a></li>
+                <li><a href="#report-issue">問題報告</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            // ページ読み込み時に、保存されたテーマ設定を適用
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                body.classList.add('light-mode');
+            }
+
+            // ボタンクリックでテーマを切り替え
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+
+                // 現在のテーマ設定をlocalStorageに保存
+                if (body.classList.contains('light-mode')) {
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
